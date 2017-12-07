@@ -1,0 +1,9 @@
+# phpstorm project files
+.idea
+
+# composer vendor dir
+/vendor
+
+# tests
+tests/_output/*
+tests/_support/_generated
