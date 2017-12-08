@@ -1,11 +1,13 @@
 <?php
 
+use app\entities\models\User;
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 $providers = require __DIR__ . '/providers.php';
 
 $config = [
-    'id' => 'basic',
+    'id' => 'tickit_user',
     'basePath' => dirname(__DIR__),
     'bootstrap' => array_merge(['log'], $providers),
     'aliases' => [
@@ -16,12 +18,15 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => '8zDoMaDzRr4HYvZrc2rbcVcT4qe7F6XI',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ]
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
-            'identityClass' => 'app\models\User',
+            'identityClass' => User::class,
             'enableAutoLogin' => true,
         ],
         'errorHandler' => [
@@ -49,7 +54,8 @@ $config = [
             'showScriptName' => false,
             'rules' => [
                 'users' => 'user/index',
-                'POST users' => 'user/create'
+                'POST users' => 'user/create',
+                'POST sessions' => 'session/login'
             ],
         ],
     ],

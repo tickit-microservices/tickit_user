@@ -1,7 +1,9 @@
 <?php
 
+use app\providers\SessionServiceProvider;
 use app\providers\UserServiceProvider;
 
 return [
-    UserServiceProvider::class
+    UserServiceProvider::class,
+    SessionServiceProvider::class
 ];
