@@ -54,6 +54,14 @@ class BaseRepository implements RepositoryInterface
 
         $total = $query->count();
 
-        return new Pagination($models, $total);
+        return new Pagination($models, $total, $page, $pageSize);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function find($conditions = [])
+    {
+        return $this->model->find()->where($conditions)->one();
     }
 }

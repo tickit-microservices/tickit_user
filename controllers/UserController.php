@@ -3,26 +3,38 @@
 namespace app\controllers;
 
 use app\services\UserService;
+use app\transformers\UserTransformer;
+use League\Fractal\Manager;
 use yii\base\Module;
-use yii\web\Controller;
 
-class UserController extends Controller
+class UserController extends BaseController
 {
     private $userService;
+
+    private $userTransformer;
 
     /**
      * UserController constructor.
      *
      * @param string $id
      * @param Module $module
+     * @param Manager $manager
      * @param UserService $userService
+     * @param UserTransformer $userTransformer
      * @param array $config
      */
-    public function __construct($id, Module $module, UserService $userService, array $config = [])
-    {
-        parent::__construct($id, $module, $config);
+    public function __construct(
+        $id,
+        Module $module,
+        Manager $manager,
+        UserService $userService,
+        UserTransformer $userTransformer,
+        array $config = []
+    ) {
+        parent::__construct($id, $module, $manager, $config);
 
         $this->userService = $userService;
+        $this->userTransformer = $userTransformer;
     }
 
     /**
@@ -30,7 +42,12 @@ class UserController extends Controller
      */
     public function actionIndex()
     {
-        return $this->userService->paginate();
+        $page = $this->request->get('page') ?? 1;
+        $pageSize = $this->request->get('pageSize') ?? 20;
+
+        $pagination = $this->userService->paginate([], $page, $pageSize);
+
+        return $this->responsePagination($pagination, $this->userTransformer);
     }
 
     public function actionCreate()
