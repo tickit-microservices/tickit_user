@@ -53,7 +53,7 @@ $config = [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
             'rules' => [
-                'users' => 'user/index',
+                'GET users' => 'user/index',
                 'POST users' => 'user/create',
                 'POST sessions' => 'session/login'
             ],

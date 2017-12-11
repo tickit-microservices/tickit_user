@@ -4,7 +4,9 @@ namespace app\controllers;
 
 use app\services\UserService;
 use app\transformers\UserTransformer;
+use Exception;
 use League\Fractal\Manager;
+use League\Fractal\Resource\Item;
 use yii\base\Module;
 
 class UserController extends BaseController
@@ -50,8 +52,20 @@ class UserController extends BaseController
         return $this->responsePagination($pagination, $this->userTransformer);
     }
 
+    /**
+     * Action create an user
+     *
+     * @return mixed
+     *
+     * @throws Exception
+     * @throws \yii\base\Exception
+     */
     public function actionCreate()
     {
-        echo 'Create an user';
+        $userData = $this->request->post();
+
+        $user = $this->userService->save($userData);
+
+        return $this->responseItem(new Item($user, $this->userTransformer));
     }
 }

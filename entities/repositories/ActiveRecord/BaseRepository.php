@@ -4,6 +4,7 @@ namespace app\entities\repositories\ActiveRecord;
 
 use app\entities\Pagination;
 use app\entities\repositories\RepositoryInterface;
+use app\exceptions\EntityValidationException;
 use yii\db\ActiveRecord;
 
 class BaseRepository implements RepositoryInterface
@@ -26,9 +27,21 @@ class BaseRepository implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function save(ActiveRecord $model)
+    public function getModel()
     {
-        // TODO: Implement save() method.
+        return $this->model;
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function save(ActiveRecord $model, $runValidation = true)
+    {
+        if ($model->save($runValidation)) {
+            return $model;
+        }
+
+        throw new EntityValidationException($model->errors);
     }
 
     /**
@@ -60,7 +73,7 @@ class BaseRepository implements RepositoryInterface
     /**
      * @inheritdoc
      */
-    public function find($conditions = [])
+    public function findOne($conditions = [])
     {
         return $this->model->find()->where($conditions)->one();
     }

@@ -15,12 +15,20 @@ use yii\db\ActiveRecord;
 interface RepositoryInterface
 {
     /**
+     * Return main model class of this repository
+     *
+     * @return ActiveRecord
+     */
+    public function getModel();
+
+    /**
      *
      * @param ActiveRecord $model
+     * @param bool $runValidation
      *
      * @return mixed
      */
-    public function save(ActiveRecord $model);
+    public function save(ActiveRecord $model, $runValidation = true);
 
     /**
      * @param ActiveRecord $model
@@ -43,5 +51,5 @@ interface RepositoryInterface
      *
      * @return mixed
      */
-    public function find($conditions = []);
+    public function findOne($conditions = []);
 }
