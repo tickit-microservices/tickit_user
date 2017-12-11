@@ -34,7 +34,7 @@ class SessionService
      */
     public function login(string $email, string $password)
     {
-        $user = $this->userService->find(['email' => $email]);
+        $user = $this->userService->findOne(['email' => $email]);
 
         if (!$user) {
             throw new InvalidCredentialException('Wrong email or password');

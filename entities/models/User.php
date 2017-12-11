@@ -2,6 +2,8 @@
 
 namespace app\entities\models;
 
+use yii\db\ActiveRecord;
+
 /**
  * Class User
  *
@@ -11,6 +13,9 @@ namespace app\entities\models;
  */
 class User extends BaseModel
 {
+    /**
+     * @inheritdoc
+     */
     public static function tableName()
     {
         return 'users';
