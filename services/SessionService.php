@@ -15,13 +15,22 @@ class SessionService
     private $userService;
 
     /**
+     * @var JWTService
+     */
+    private $jwtService;
+
+    /**
      * SessionService constructor.
      *
      * @param UserService $userService
+     * @param JWTService $jwtService
      */
-    public function __construct(UserService $userService)
-    {
+    public function __construct(
+        UserService $userService,
+        JWTService $jwtService
+    ) {
         $this->userService = $userService;
+        $this->jwtService = $jwtService;
     }
 
     /**
@@ -65,8 +74,7 @@ class SessionService
      */
     private function generateAccessToken(User $user)
     {
-        // TODO implement BearerToken
-        $token = md5(time());
+        $token = $this->jwtService->generate($user->id);
 
         $userAccessToken = new UserAccessToken([
             'token' => $token,

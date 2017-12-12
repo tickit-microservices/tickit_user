@@ -1,5 +1,13 @@
+env:
+  - DB_NAME=tickit_user_test DB_USERNAME=travis DB_PASSWORD= DB_HOST=localhost
 language: php
 php:
   - '7.1'
-install: composer install
+services:
+  - mysql
+before_install:
+  - mysql -e 'CREATE DATABASE tickit_user_test;'
+install:
+  - composer install
+  - php yii migrate --interactive=0
 script: vendor/bin/codecept run
