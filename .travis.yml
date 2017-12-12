@@ -1,8 +1,5 @@
 env:
-  - DB_NAME="tickit_user_test"
-  - DB_USERNAME="travis"
-  - DB_PASSWORD=""
-  - DB_HOST="localhost"
+  - DB_NAME=tickit_user_test DB_USERNAME=travis DB_PASSWORD= DB_HOST=localhost
 language: php
 php:
   - '7.1'
