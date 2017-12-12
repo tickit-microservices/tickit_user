@@ -1,18 +1,16 @@
 env:
-  - YII_ENV=test
+  - DB_NAME="tickit_user_test"
+  - DB_USERNAME="travis"
+  - DB_PASSWORD=""
+  - DB_HOST="localhost"
 language: php
 php:
   - '7.1'
 services:
   - mysql
-test:
-  adapter: mysql2
-  database: tickit_user_test
-  username: travis
-  encoding: utf8
 before_install:
   - mysql -e 'CREATE DATABASE tickit_user_test;'
 install:
   - composer install
-  - php yii migrate
+  - php yii migrate --interactive=0
 script: vendor/bin/codecept run
