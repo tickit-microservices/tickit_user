@@ -47,7 +47,9 @@ class UserController extends BaseController
         $page = $this->request->get('page') ?? 1;
         $pageSize = $this->request->get('pageSize') ?? 20;
 
-        $pagination = $this->userService->paginate([], $page, $pageSize);
+        $userIds = $this->request->get('ids') ?? [];
+
+        $pagination = $this->userService->paginate(['id' => $userIds], $page, $pageSize);
 
         return $this->responsePagination($pagination, $this->userTransformer);
     }
