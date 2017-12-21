@@ -47,9 +47,9 @@ class UserController extends BaseController
         $page = $this->request->get('page') ?? 1;
         $pageSize = $this->request->get('pageSize') ?? 20;
 
-        $userIds = $this->request->get('ids') ?? [];
+        $searchConditions = $this->getSearchConditions();
 
-        $pagination = $this->userService->paginate(['id' => $userIds], $page, $pageSize);
+        $pagination = $this->userService->paginate($searchConditions, $page, $pageSize);
 
         return $this->responsePagination($pagination, $this->userTransformer);
     }
@@ -69,5 +69,27 @@ class UserController extends BaseController
         $user = $this->userService->save($userData);
 
         return $this->responseItem(new Item($user, $this->userTransformer));
+    }
+
+    /**
+     * Create an array represent user search conditions
+     *
+     * @return array
+     */
+    private function getSearchConditions()
+    {
+        $searchConditions = [];
+
+        $userIds = $this->request->get('ids') ?? [];
+        if ($userIds) {
+            $searchConditions['id'] = $userIds;
+        }
+
+        $email = $this->request->get('email') ?? '';
+        if ($email) {
+            $searchConditions['email'] = $email;
+        }
+
+        return $searchConditions;
     }
 }
